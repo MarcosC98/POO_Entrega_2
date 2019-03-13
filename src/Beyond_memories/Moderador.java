@@ -1,20 +1,31 @@
-package cementerio.moderador;
-import cementerio.persona.*;
+package Beyond_memories;
+
 import java.util.*;
 
-public class Moderador extends Persona{
+public class Moderador extends Persona {
 
     private String contrasena;
-    public static Map<Integer,String> ListaMods = new HashMap<Integer,String>();
+    private Cementerio cementerio;
+    static ArrayList<Moderador> moderadores = new ArrayList<>();
 
-    
-    public Moderador(String nombre, int documento, String fechaNac, String contrasena){
-        super(nombre,documento,fechaNac);
+    public Moderador(String nombre, int documento, String fechaNac, String contrasena,Cementerio cementerio) {
+        super(nombre, documento, fechaNac);
         this.contrasena = contrasena;
-        ListaMods.put(documento,contrasena);
-        // Datos guardados dentro de los datos ficticios, Ricardo encargado.
+        this.cementerio = cementerio;
+        cementerio.añadirModeradorCementerio(this);
+    }
+
+    public static Moderador buscarModerador(int documento) {
+        for (Moderador m : moderadores){
+            if (m.getDocumento() ==  documento){
+                return m;
+            }
+        }
+        return null;
+    }
     }
     
+    /*
     public static void mostrarMod(Moderador m){
         int doc = m.getDocumento();
         System.out.println("");
@@ -58,13 +69,9 @@ public class Moderador extends Persona{
         ListaMods.put(doc,contrasena);
     }
 
-
+/*
     public void setContrasena(double contrasena){
         this.contrasena = contrasena;
     }
-    public String getContrasena(){
-        return contrasena;
-    }
-            
+*/
     
-}

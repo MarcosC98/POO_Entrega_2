@@ -1,19 +1,34 @@
+package Beyond_memories;
+
 import java.util.*;
-import cementerio.persona.*;
 
 public class Cliente extends Persona{
 
     private String contrasena;
-    public static HashMap<Integer,String> ListaClientes = new HashMap<Integer,String>();
+    private Lapida lapida;
+    private Cementerio cementerio;
+    public static ArrayList<Cliente>clientes = new ArrayList<>();
 
-    public Cliente(String nombre, int documento, String fechaNac, String contrasena){
+    public Cliente(String nombre, int documento, String fechaNac, String contrasena,Lapida lapida){
         super(nombre,documento,fechaNac);
+        this.lapida = lapida;
         this.contrasena = contrasena;
-        ListaClientes.put(documento,contrasena);
+        this.cementerio = lapida.getCementerio();
+        clientes.add(this);
+        cementerio.añadirClienteCementerio(this);
     }
-
+    
+    public static Cliente buscarCliente(int documento){
+        for (Cliente c: clientes){
+            if (c.getDocumento() == documento){
+                return c;
+            }
+        }
+        return null;
+    }
+/*
     public static void mostrarCliente(Cliente c){
-        int doc = c.getDocumento();
+
         System.out.println("");
         if((ListaClientes.containsKey(doc))==true){
             System.out.println("---DATOS DE CLIENTE---");
@@ -51,11 +66,11 @@ public class Cliente extends Persona{
             return false;
         }
     }
-
+/*
     public void setContrasena(double contrasena){
         this.contrasena = contrasena;
     }
-
+*/
     public String getContrasena(){
         return contrasena;
     }

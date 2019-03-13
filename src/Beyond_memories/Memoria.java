@@ -1,4 +1,4 @@
-import cementerio.*;
+package Beyond_memories;
 import java.util.*;
 
 public class Memoria{

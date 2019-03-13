@@ -1,4 +1,4 @@
-package cementerio.persona;
+package Beyond_memories;
 import java.util.*;
 
 public class Persona {
