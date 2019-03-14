@@ -4,6 +4,17 @@ import java.util.Scanner;
 
 public class Main {
 
+    public static void opcionesVisitante() {
+        System.out.println("Ingrese el numero de la opción a realizar");
+        System.out.println("1. Adquirir Lapida");
+        System.out.println("2. Escribir Memoria");
+        System.out.println("3. Leer Lapida");
+        System.out.println("4. Ingresar con otro perfil");
+        System.out.println("5. Ingresar a otro cementerio");
+        System.out.println("6. Salir");
+        
+    }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -17,50 +28,70 @@ public class Main {
         Cliente cliente1 = new Cliente(moderador1.getNombre(), moderador1.getDocumento(), moderador1.getFechaNac(), "789", lapida1);
 
         System.out.println("Bienvenido al sistema de administración para cementerios");
-        System.out.println("Ingrese el cementerio al cual desea entrar");
-        Cementerio.imprimirCementerios();
+
         while (true) {
+            System.out.println("Ingrese el id del cementerio al cual desea entrar");
+            Cementerio.imprimirCementerios();
             String entrada = input.next();
             try {
-                int ent = Integer.parseInt(entrada);
-                while (true) {
-                    Cementerio ce = Cementerio.buscarCementerio(ent);
-                    if (ce != null) {
-                        System.out.println("Ha ingresado al sistema del cementerio " + ce.getNombre());
+                int idCementerio = Integer.parseInt(entrada);
+                Cementerio cementerio = Cementerio.buscarCementerio(idCementerio);
+                if (cementerio == null) {
+                    throw new Exception();
+                } else {
+                    System.out.println("Ha ingresado a la base de datos del cementerio: " + cementerio.getNombre());
+                    boolean a = true;
+                    while (a) {
                         System.out.println("Ingrese su documento");
-                        while (true) {
-                            entrada = input.next();
-                            try {
-                                int documento = Integer.parseInt(entrada);
-                                while(true){
-                                    if(documento>0){
-                                        Moderador m = Moderador.buscarModerador(documento);
-                                        Cliente c = Cliente.buscarCliente(documento);
-                                        if (m == null && c == null) {
-                                            System.out.println("No hay ninguna cuenta registrada");
-
+                        entrada = input.next();
+                        try {
+                            int documento = Integer.parseInt(entrada);
+                            if (documento < 0) {
+                                throw new Exception();
+                            } else {
+                                Moderador moderador = Moderador.buscarModerador(documento);
+                                Cliente cliente = Cliente.buscarCliente(documento);
+                                if (moderador == null && cliente == null) {
+                                    System.out.println("No hay ninguna cuenta registrada con este documento");
+                                    System.out.println("Si desea crear una cuenta nueva con este documento, ingrese 0");
+                                    System.out.println("Si desea intentar ingresar con un documento distinto, ingrese 1");
+                                    System.out.println("Si desea seleccionar un cementerio distinto, ingrese 2");
+                                    while (true) {
+                                        entrada = input.next();
+                                        if (entrada.equals("0") || entrada.equals("1") || entrada.equals("2")) {
+                                            switch (entrada) {
+                                                case "0":
+                                                    System.out.println("Ingrese su nombre completo por favor");
+                                                    String nombre = input.next();
+                                                    System.out.println("Ingrese su fecha de nacimiento en formato dd/mm/yyyy");
+                                                    String fechaNac = input.next();
+                                                    Persona visitante = new Persona(nombre, documento, fechaNac);
+                                                    Persona.mostrarPersona(visitante);
+                                                    opcionesVisitante();
+                                                case "1":
+                                                    break;
+                                                case "2":
+                                                    a = false;
+                                                    break;
+                                            }
+                                            break;
+                                        } else {
+                                            System.out.println("Ingrese una opción valida por favor");
                                         }
                                     }
-                                    else{
-                                        System.out.println("Por favor ingrese un numero positivo");
-                                        break;
-                                    }
                                 }
-                            } catch (Exception e) {
-                                System.out.println("Ingrese un número");
                             }
-
+                        } catch (Exception e) {
+                            System.out.println("Ingrese un documento valido");
                         }
-                    } else {
-                        System.out.println("No hay ningún cementerio con ese Id, ingrese un id valido");
-                        break;
                     }
-                }
 
+                }
             } catch (Exception e) {
-                System.out.println("Ingrese un número");
+                System.out.println("Ingrese un id de cementerio valido por favor");
             }
         }
 
     }
+
 }
