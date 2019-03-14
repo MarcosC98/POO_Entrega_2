@@ -23,13 +23,11 @@ public class Moderador extends Persona {
         }
         return null;
     }
-    }
     
-    /*
     public static void mostrarMod(Moderador m){
         int doc = m.getDocumento();
         System.out.println("");
-        if(ListaMods.containsKey(doc)){
+        if(moderadores.contains(doc)){
             System.out.println("---DATOS DE MODERADOR---");
             System.out.println("Nombre: "+m.getNombre());
             System.out.println("Documento: "+ m.getDocumento());
@@ -39,6 +37,9 @@ public class Moderador extends Persona {
             System.out.println("Esta persona no es un Moderador.");
         }
     }
+}
+
+    /*
 
     public static void imprimirMods(){
         int key;
