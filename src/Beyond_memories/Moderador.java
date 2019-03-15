@@ -9,14 +9,14 @@ public class Moderador extends Persona {
     static ArrayList<Moderador> moderadores = new ArrayList<>();
 
     public Moderador(String nombre, int documento, String fechaNac, String contrasena,Cementerio cementerio) {
-        super(nombre, documento, fechaNac);
+        super(nombre, documento, fechaNac,cementerio);
         this.contrasena = contrasena;
         this.cementerio = cementerio;
-        cementerio.añadirModeradorCementerio(this);
+        cementerio.moderadores.add(this);
     }
 
-    public static Moderador buscarModerador(int documento) {
-        for (Moderador m : moderadores){
+    public static Moderador buscarModerador(int documento,Cementerio cementerio) { 
+        for (Moderador m : cementerio.moderadores){
             if (m.getDocumento() ==  documento){
                 return m;
             }

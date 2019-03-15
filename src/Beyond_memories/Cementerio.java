@@ -4,11 +4,13 @@ import java.util.ArrayList;
 
 public class Cementerio {
 
+
     private short capacidad;
     private String nombre;
     private String direccion;
     private int id;
     private Ubicacion ubicaciones[];
+    ArrayList<Persona>visitantes = new ArrayList<>();
     ArrayList<Cliente>clientes = new ArrayList<>();
     ArrayList<Moderador>moderadores = new ArrayList<>();
     public static ArrayList<Cementerio>cementerios = new ArrayList<>();
@@ -22,14 +24,6 @@ public class Cementerio {
         cementerios.add(this);
     }
     
-    public void añadirModeradorCementerio(Moderador moderador){
-        this.moderadores.add(moderador);
-    }
-    
-    public void añadirClienteCementerio(Cliente cliente){
-        this.clientes.add(cliente);
-    }
-
     public void añadirUbicacionCementerio(Ubicacion ubicacion) {
         this.ubicaciones[ubicacion.getIndice()] = ubicacion;
     }
@@ -70,6 +64,13 @@ public class Cementerio {
     public static void imprimirCementerios(){
         for(Cementerio c:cementerios){
             System.out.println(c.getId()+". " + c.getNombre());
+        }
+    }
+    public static boolean revisarDisponibilidadUbicacion(Cementerio cementerio,int indice){
+        if(cementerio.ubicaciones[indice]==null){
+            return true;
+        }else{
+            return false;
         }
     }
 

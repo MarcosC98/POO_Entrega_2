@@ -9,23 +9,29 @@ public class Cliente extends Persona{
     private Cementerio cementerio;
     public static ArrayList<Cliente>clientes = new ArrayList<>();
 
-    public Cliente(String nombre, int documento, String fechaNac, String contrasena,Lapida lapida){
-        super(nombre,documento,fechaNac);
+    public Cliente(Persona persona, String contrasena,Lapida lapida){
+        super(persona.getNombre(),persona.getDocumento(),persona.getFechaNac(),lapida.getCementerio());
+        this.cementerio = lapida.getCementerio();
         this.lapida = lapida;
         this.contrasena = contrasena;
-        this.cementerio = lapida.getCementerio();
-        clientes.add(this);
-        cementerio.añadirClienteCementerio(this);
+        cementerio.clientes.add(this);
     }
     
-    public static Cliente buscarCliente(int documento){
-        for (Cliente c: clientes){
+    public static Cliente buscarCliente(int documento,Cementerio cementerio){
+        for (Cliente c: cementerio.clientes){
             if (c.getDocumento() == documento){
                 return c;
             }
         }
         return null;
     }
+
+    public Lapida getLapida() {
+        return lapida;
+    }
+    
+    
+   
 /*
     public static void mostrarCliente(Cliente c){
 

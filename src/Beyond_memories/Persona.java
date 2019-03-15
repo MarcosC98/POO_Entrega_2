@@ -6,21 +6,21 @@ public class Persona {
     private String nombre;
     private int documento;
     private String fechaNac;
+    private Cementerio cementerio;
     Scanner intro = new Scanner(System.in);
-    public static Map<Integer,String> ListaPersonas = new HashMap<Integer,String>();
     public static Map<Integer,Persona> Datos = new HashMap<Integer,Persona>();
     
-    public Persona(String nombre, int documento, String fechaNac){
+    public Persona(String nombre, int documento, String fechaNac,Cementerio cementerio){
         this.nombre = nombre;
         this.documento = documento;
         this.fechaNac = fechaNac;
-        ListaPersonas.put(documento,nombre);
+        this.cementerio = cementerio;
+        cementerio.visitantes.add(this);       
     }
 
-    public static void mostrarPersona(Persona p){
-        int doc = p.getDocumento();
+    public static void mostrarPersona(Persona p,Cementerio cementerio){
         System.out.println("");
-        if((ListaPersonas.containsKey(doc))==true){
+        if(cementerio.visitantes.contains(p)){
             System.out.println("---DATOS DE PERSONA---");
             System.out.println("Nombre: "+p.getNombre());
             System.out.println("Documento: "+p.getDocumento());
@@ -32,10 +32,10 @@ public class Persona {
         }
 
     }
-
+/*
     public static void imprimirPersonas(){
         int key;
-        int numeroPersonas = ListaPersonas.size();
+        int numeroPersonas = 
         Iterator it = ListaPersonas.keySet().iterator();
         System.out.println("");
         System.out.println("---LISTADO DE PERSONAS---");
@@ -49,7 +49,7 @@ public class Persona {
             System.out.println("No hay personas inscritas.");
         }
     }
-    
+    */
     public void setNombre(String nombre){
         this.nombre = nombre;
     }
