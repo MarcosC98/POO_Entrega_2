@@ -71,7 +71,7 @@ public class Moderador extends Persona {
     }
 
 /*
-    public void setContrasena(double contrasena){
+    public void  setContrasena(double contrasena){
         this.contrasena = contrasena;
     }
 */

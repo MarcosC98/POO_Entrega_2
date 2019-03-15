@@ -199,7 +199,8 @@ public class Main {
                 } else {
                     Moderador moderador = Moderador.buscarModerador(documento,cementerio);
                     Cliente cliente = Cliente.buscarCliente(documento,cementerio);
-                    if (moderador == null && cliente == null) {
+                    //Persona visitante = Persona.buscaVisitante(documento,cementerio);
+                    if (moderador == null && cliente == null /* && visitante == null */) {
                         System.out.println(" ");
                         System.out.println("No hay ninguna cuenta registrada con este documento");
                         System.out.println("Si desea crear una cuenta nueva con este documento, ingrese 0");
