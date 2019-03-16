@@ -1,4 +1,5 @@
 package Beyond_memories;
+
 import java.util.*;
 
 public class Persona {
@@ -8,30 +9,84 @@ public class Persona {
     private String fechaNac;
     private Cementerio cementerio;
     Scanner intro = new Scanner(System.in);
-    public static Map<Integer,Persona> Datos = new HashMap<Integer,Persona>();
-    
-    public Persona(String nombre, int documento, String fechaNac,Cementerio cementerio){
+    public static ArrayList<Persona> visitantes = new ArrayList<>();
+
+    public Persona(String nombre, int documento, String fechaNac, Cementerio cementerio) {
         this.nombre = nombre;
         this.documento = documento;
         this.fechaNac = fechaNac;
         this.cementerio = cementerio;
-        cementerio.visitantes.add(this);       
+        visitantes.add(this);
     }
 
-    public static void mostrarPersona(Persona p,Cementerio cementerio){
+    public static void mostrarPersona(Persona p) {
         System.out.println("");
-        if(cementerio.visitantes.contains(p)){
+        Cementerio cementerio = p.getCementerio();
+        if (visitantes.contains(p)) {
             System.out.println("---DATOS DE PERSONA---");
-            System.out.println("Nombre: "+p.getNombre());
-            System.out.println("Documento: "+p.getDocumento());
-            System.out.println("Fecha de Nacimiento: "+p.getFechaNac());
+            System.out.println("Nombre: " + p.getNombre());
+            System.out.println("Documento: " + p.getDocumento());
+            System.out.println("Fecha de Nacimiento: " + p.getFechaNac());
             // Datos guardados dentro de los datos ficticios, Ricardo encargado.
-        }
-        else {
+        } else {
             System.out.println("Esta no es una Persona registrada.");
         }
 
     }
+    
+    public static boolean visitanteExiste(int documento) {
+        for (Persona p : visitantes) {
+            if (p.getDocumento() == documento) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public static Persona buscarPersona(int documento) { 
+        for (Persona p : visitantes){
+            if (p.getDocumento() ==  documento){
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setDocument(int documento) {
+        this.documento = documento;
+    }
+
+    public int getDocumento() {
+        return documento;
+    }
+
+    public void setFechaNac(String fechaNac) {
+        this.fechaNac = fechaNac;
+    }
+
+    public String getFechaNac() {
+        return fechaNac;
+    }
+
+    public Cementerio getCementerio() {
+        return cementerio;
+    }
+
+    public void setCementerio(Cementerio cementerio) {
+        this.cementerio = cementerio;
+    }
+
+
+
+}
 /*
     public static void imprimirPersonas(){
         int key;
@@ -50,25 +105,3 @@ public class Persona {
         }
     }
     */
-    public void setNombre(String nombre){
-        this.nombre = nombre;
-    }
-    public String getNombre(){
-        return nombre;
-    }
-
-    public void setDocument(int documento){
-        this.documento = documento;
-    }
-    public int getDocumento(){
-        return documento;
-    }
-
-    public void setFechaNac(String fechaNac){
-        this.fechaNac = fechaNac;
-    }
-    public String getFechaNac(){
-        return fechaNac;
-    }
-
-}

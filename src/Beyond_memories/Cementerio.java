@@ -3,19 +3,16 @@ import java.util.ArrayList;
 
 
 public class Cementerio {
-
-
+    
     private short capacidad;
     private String nombre;
     private String direccion;
     private int id;
     private Ubicacion ubicaciones[];
-    ArrayList<Persona>visitantes = new ArrayList<>();
-    ArrayList<Cliente>clientes = new ArrayList<>();
-    ArrayList<Moderador>moderadores = new ArrayList<>();
-    public static ArrayList<Cementerio>cementerios = new ArrayList<>();
+    
+    public static ArrayList<Cementerio> cementerios = new ArrayList<>();
 
-    Cementerio(int id,String nombre, short capacidad, String direccion) {
+    Cementerio(int id, String nombre, short capacidad, String direccion) {
         this.id = id;
         this.nombre = nombre;
         this.capacidad = capacidad;
@@ -66,6 +63,7 @@ public class Cementerio {
             System.out.println(c.getId()+". " + c.getNombre());
         }
     }
+    
     public static boolean revisarDisponibilidadUbicacion(Cementerio cementerio,int indice){
         if(cementerio.ubicaciones[indice]==null){
             return true;

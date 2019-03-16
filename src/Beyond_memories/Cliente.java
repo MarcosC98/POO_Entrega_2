@@ -2,24 +2,24 @@ package Beyond_memories;
 
 import java.util.*;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona {
 
     private String contrasena;
     private Lapida lapida;
     private Cementerio cementerio;
-    public static ArrayList<Cliente>clientes = new ArrayList<>();
+    public static ArrayList<Cliente> clientes = new ArrayList<>();
 
-    public Cliente(Persona persona, String contrasena,Lapida lapida){
-        super(persona.getNombre(),persona.getDocumento(),persona.getFechaNac(),lapida.getCementerio());
+    public Cliente(Persona persona, String contrasena, Lapida lapida) {
+        super(persona.getNombre(), persona.getDocumento(), persona.getFechaNac(), lapida.getCementerio());
         this.cementerio = lapida.getCementerio();
         this.lapida = lapida;
         this.contrasena = contrasena;
-        cementerio.clientes.add(this);
+        clientes.add(this);
     }
-    
-    public static Cliente buscarCliente(int documento,Cementerio cementerio){
-        for (Cliente c: cementerio.clientes){
-            if (c.getDocumento() == documento){
+
+    public static Cliente buscarCliente(int documento) {
+        for (Cliente c : clientes) {
+            if (c.getDocumento() == documento) {
                 return c;
             }
         }
@@ -29,9 +29,26 @@ public class Cliente extends Persona{
     public Lapida getLapida() {
         return lapida;
     }
-    
-    
-   
+
+    public static boolean clienteExiste(int documento) {
+        for (Cliente c : clientes) {
+            if (c.getDocumento() == documento) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+}
+
 /*
     public static void mostrarCliente(Cliente c){
 
@@ -64,20 +81,7 @@ public class Cliente extends Persona{
         }
     }
 
-    public static boolean verificarCliente(int documento,String contrasena){
-        if((ListaClientes.containsKey(documento))&&(ListaClientes.get(documento)==contrasena)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
+
 /*
-    public void setContrasena(double contrasena){
-        this.contrasena = contrasena;
-    }
-*/
-    public String getContrasena(){
-        return contrasena;
-    }
-}
+
+ */

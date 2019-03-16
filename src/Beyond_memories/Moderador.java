@@ -3,7 +3,7 @@ package Beyond_memories;
 import java.util.*;
 
 public class Moderador extends Persona {
-
+    
     private String contrasena;
     private Cementerio cementerio;
     static ArrayList<Moderador> moderadores = new ArrayList<>();
@@ -12,11 +12,11 @@ public class Moderador extends Persona {
         super(nombre, documento, fechaNac,cementerio);
         this.contrasena = contrasena;
         this.cementerio = cementerio;
-        cementerio.moderadores.add(this);
+        moderadores.add(this);
     }
 
-    public static Moderador buscarModerador(int documento,Cementerio cementerio) { 
-        for (Moderador m : cementerio.moderadores){
+    public static Moderador buscarModerador(int documento) { 
+        for (Moderador m : moderadores){
             if (m.getDocumento() ==  documento){
                 return m;
             }
@@ -36,6 +36,15 @@ public class Moderador extends Persona {
         else{
             System.out.println("Esta persona no es un Moderador.");
         }
+    }
+    
+    public static boolean modExiste(int documento) { 
+        for (Moderador m : moderadores){
+            if (m.getDocumento() ==  documento){
+                return true;
+            }
+        }
+        return false;
     }
 }
 
