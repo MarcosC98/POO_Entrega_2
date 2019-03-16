@@ -38,9 +38,9 @@ public class Moderador extends Persona {
         }
     }
     
-    public static boolean modExiste(int documento) { 
+    public static boolean modExiste(int documento,Cementerio cementerio) {
         for (Moderador m : moderadores){
-            if (m.getDocumento() ==  documento){
+            if ((m.getDocumento() ==  documento)&&(m.getCementerio() == cementerio)){
                 return true;
             }
         }

@@ -34,9 +34,9 @@ public class Persona {
 
     }
     
-    public static boolean visitanteExiste(int documento) {
+    public static boolean visitanteExiste(int documento,Cementerio cementerio) {
         for (Persona p : visitantes) {
-            if (p.getDocumento() == documento) {
+            if ((p.getDocumento() == documento)&&(p.getCementerio() == cementerio)){
                 return true;
             }
         }

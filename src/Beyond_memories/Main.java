@@ -22,14 +22,16 @@ public class Main {
 
         //DATOS FICTICIOS:
         Cementerio cementerio1 = new Cementerio(1, "Beyond Memories", (short) 50, "Calle 24 #45a-54 ");
+        Cementerio cementerio2 = new Cementerio(2, "San Lorenzo", (short) 50, "Boston/Prado");
         Persona persona1 = new Persona("Simona", 1010, "19/06/2017", cementerio1);
         Persona persona2 = new Persona("Luna", 1011, "18/02/2013", cementerio1);
+        Persona persona3 = new Persona("Leonor", 1111, "Nacimiento", cementerio1);
         Moderador moderador1 = new Moderador("David", 1090514247, "23/02/1998", "456", cementerio1);
-        Moderador moderador2 = new Moderador("Mario", 1010215392, "13/06/1994", "666", cementerio1);
+        Moderador moderador2 = new Moderador("Mario", 1010215392, "13/06/1994", "666", cementerio2);
         Moderador moderador3 = new Moderador("Marcos", 1090514246, "23/02/1998", "123", cementerio1);
         Ubicacion ubicacion1 = new Ubicacion(1, cementerio1);
         Ubicacion ubicacion2 = new Ubicacion(2, cementerio1);
-        Lapida lapida1 = new Lapida(moderador1, false, ubicacion1, cementerio1, "", "");
+        Lapida lapida1 = new Lapida(persona3, true, ubicacion1, cementerio1, "", "");
         Lapida lapida2 = new Lapida(moderador2, true, ubicacion2, cementerio1, "", "");
         Cliente cliente1 = new Cliente(moderador1, "789", lapida1);
         Cliente cliente2 = new Cliente(persona1, "963", lapida2);
@@ -41,31 +43,41 @@ public class Main {
         Texto.presentacion();
         idiom = input.next();
         Texto.setIdiom(idiom);
+        Cementerio cementerio = null;
 
         while (a == true) {
 
             if (pedirCementerio == true) {
-                Cementerio cementerio = Main.ingresoCementerio();
+                cementerio = Main.ingresoCementerio();
             }
+
             if (realizarIngreso == true) {
                 Main.ingresoID();
             }
 
-            if (Moderador.modExiste(id) == true) {
+            if (Moderador.modExiste(id, cementerio) == true) {
                 Moderador mod = Moderador.buscarModerador(id);
-                System.out.println("MenuModerador");
+                if(Cliente.clienteExiste(id, cementerio)){
+                    System.out.println("Menu para que elija si entrar como moderador o cliente.");//Moderador y cliente a la vez.
+                    a=false;
+                }
+                else{
+                    Main.menuMod(mod);//Si solo es moderador.
+                }
+                
 
-            } else if (Cliente.clienteExiste(id) == true) {
+            } else if (Cliente.clienteExiste(id, cementerio) == true) {
                 Cliente cliente = Cliente.buscarCliente(id);
-                System.out.println("MenuCliente");
-            } else if (Persona.visitanteExiste(id) == true) {
+                Main.menuCliente(cliente);
+
+            } else if (Persona.visitanteExiste(id, cementerio) == true) {
                 Persona visitante = Persona.buscarPersona(id);
                 Main.menuVisitante(visitante);
+
             } else {
-                //Main.nuevoIngreso(noValido, cementerio);
                 System.out.println("PrimerIngreso");
+                Main.nuevoIngreso(noValido, cementerio);
             }
-            a = false;
         }
     }
 
@@ -77,7 +89,8 @@ public class Main {
             System.out.println(" ");
             try {
                 id = input.nextInt();
-                System.out.println(" ");
+                System.out.println("Si entra el dato.");//Esto es una comprobación que hice.
+                realizarIngreso = false;
                 valido = true;
             } catch (Exception e) {
                 System.out.println("Dato ingresado no valido");
@@ -87,12 +100,13 @@ public class Main {
         }
     }
 
-    public static void menuModerador() {
-
+    public static void menuMod(Moderador mod) {
+        System.out.println("MenuModerador");
     }
 
-    public static void menuCliente(Persona Persona) {
-
+    public static void menuCliente(Cliente cliente) {
+        System.out.println("MenuCliente");
+        a=false;
     }
 
     public static void menuVisitante(Persona persona) {
@@ -100,40 +114,56 @@ public class Main {
             System.out.println(" ");
             System.out.println("Ingrese el numero de la opción a realizar");
             System.out.println(" ");
-            System.out.println("1. Adquirir Lapida");
-            System.out.println("2. Imprimir Lápidas de Seres Cercanos");
-            System.out.println("2. Escribir Memoria");
-            System.out.println("3. Leer Lapida");
-            System.out.println("4. Ingresar con otro perfil");
-            System.out.println("5. Ingresar a otro cementerio");
-            System.out.println("6. Salir");
+            System.out.println("1. Adquirir Lapida");//Está el problema de los NextLine...porque también está tomando el "Enter" como un comando de entrada y está dejando vacío los epitafios. Si se pone como Next está el problema del interespaciado.
+            System.out.println("2. Mapa del Cementerio");
+            System.out.println("3. Escribir Memoria");
+            System.out.println("4. Leer Lapida");//Acá hay un bug cuando se coloca un dato invalido en documento, imprime luego dos veces este el MenuVisitante.
+            System.out.println("5. Saber más acerca del cementerio.");//Este lo coloco porque nos va a ser de utilidad en un futuro en la aplicación Web.
+            System.out.println("6. Ingresar a otro perfil con otro documento.");//Dentro del mismo cementerio.
+            System.out.println("7. Ingresar a otro cementerio.");
+            System.out.println("8. Salir");
             System.out.println(" ");
             System.out.println("Su Seleccion:");
             entrada = input.next();
             try {
                 int opcion = Integer.parseInt(entrada);
                 Cementerio cementerio = persona.getCementerio();
-                if (opcion <= 0 || opcion > 6) {
+                if (opcion <= 0 || opcion > 8) {
                     throw new Exception();
                 } else {
                     switch (opcion) {
                         case 1:
-                            Main.adquirirLapida(cementerio, persona);
+                            Cliente nuevoCliente = Main.adquirirLapida(cementerio, persona);
+                            doit=false;
+                            pedirCementerio=false;
+                            realizarIngreso=false;
+                            
                             break;
                         case 2:
-                            Main.escribirMemoria(cementerio);
+                            Main.imprimirLapidas(cementerio);
                             break;
                         case 3:
-                            System.out.println("opcion3");
+                            Main.escribirMemoria(cementerio);
                             break;
                         case 4:
-                            System.out.println("opcion4");
+                            Main.mostrarLapida(cementerio);//Hay un error cuando se ingresa un dato invalido, imprime dos veces el menúVisitante.
                             break;
                         case 5:
-                            System.out.println("opcion5");
+                            System.out.println("Imprime información del cementerio...blablabla");
                             break;
                         case 6:
                             doit = false;
+                            pedirCementerio = false;
+                            realizarIngreso = true;
+                            break;
+                        case 7:
+                            doit = false;
+                            realizarIngreso = true;
+                            pedirCementerio = true;
+                            break;
+                        case 8:
+                            doit = false;
+                            a = false;
                             break;
                     }
                 }
@@ -145,7 +175,7 @@ public class Main {
     }
 
     public static void nuevoIngreso(boolean noValido, Cementerio cementerio) {
-        System.out.println("Ingrese su documento");
+        System.out.println("Ingrese su documento");//Depronto esto sobra porque previamente ya se pregunto por documento, ya lo arreglaré con tiempo.
         while (noValido == true) {
             entrada = input.next();
             try {
@@ -200,6 +230,7 @@ public class Main {
                                 }
                             } else if (entrada.equals("")) {
                             } else {
+                                System.out.println(" ");
                                 System.out.println("Ingrese una opción válida por favor");
                             }
                         }
@@ -211,7 +242,8 @@ public class Main {
         }
     }
 
-    public static void mostrarLapida(Persona persona, Lapida lapida) {
+    public static void miLapida(Persona persona, Lapida lapida) {
+        System.out.println(" ");
         System.out.println("---LAPIDA DE " + persona.getNombre() + " ---");
         System.out.println("Epitafio: " + lapida.getEpitafio());
         System.out.println(persona.getFechaNac() + " - " + lapida.getFechaDef());
@@ -220,11 +252,43 @@ public class Main {
         System.out.println(" ");
     }
 
+    public static void mostrarLapida(Cementerio cementerio) {
+        while (true) {
+            System.out.println("Por favor ingrese el documento de la persona dueña de la tumba que desea ver:");
+            int doc = input.nextInt();
+            if (Cliente.clienteExiste(doc, cementerio)) {
+                Cliente c = Cliente.buscarCliente(doc);
+                Lapida l = c.getLapida();
+                System.out.println(" ");
+                System.out.println("---LAPIDA DE: " + c.getNombre() + " ---");
+                System.out.println("Epitafio: " + l.getEpitafio());
+                System.out.println(c.getFechaNac() + " - " + l.getFechaDef());
+                System.out.println("Indice: " + l.getUbicacion().getIndice());
+                System.out.println("Cementerio: " + c.getCementerio().getNombre());
+                System.out.println(" ");
+                break;
+            } else {
+                System.out.println("No hay nadie registrado con esta tumba.");
+                break;
+            }
+
+        }
+    }
+
+    public static void imprimirLapidas(Cementerio cementerio) {
+
+        System.out.println("LISTADO DE LAPIDAS EN EL CEMENTERIO " + cementerio.getNombre());
+        System.out.println(" ");
+        for (Lapida l : Lapida.lapidas) {
+            System.out.println("Aquí yace:" + l.getDueno().getDocumento() + "---" + l.getDueno().getNombre() + " --- Ubicado en la cripta Número: " + l.getIndiceU());
+        }
+    }
+
     public static void mostrarCliente(Cliente cliente, Cementerio cementerio) {
         if (Cliente.clientes.contains(cliente)) {
             Persona.mostrarPersona(cliente);
             System.out.println("Tipo de perfil: Cliente");
-            Main.mostrarLapida(cliente, cliente.getLapida());
+            //Main.mostrarLapida(cliente, cliente.getLapida());
         } else {
             System.out.println("No existe información de este cliente en este cementerio");
         }
@@ -251,14 +315,13 @@ public class Main {
 
     }
 
-    public static void adquirirLapida(Cementerio cementerio, Persona persona) {
+    public static Cliente adquirirLapida(Cementerio cementerio, Persona persona) {
         System.out.println(" ");
-        System.out.println("Bienvenido al menú de creación de lapida");
+        System.out.println("---BIENVENIDO A LA CREACION DE LAPIDA---");
         System.out.println(" ");
         System.out.println("Ingrese la contraseña que desea para su lapida: ");
         while (true) {
             String contrasena = input.next();
-            System.out.println(" ");
             System.out.println(" ");
             System.out.println("Ingrese el epitafio que desea para su lapida");
             String epitafio = input.next();
@@ -270,7 +333,7 @@ public class Main {
             System.out.println(" ");
             System.out.println("Su Selección: ");
             while (true) {
-                String entrada = input.nextLine();
+                String entrada = input.next();
                 if (!entrada.isEmpty() && entrada.equals("1") || entrada.equals("0")) {
                     if (entrada == "1") {
                         privacidad = true;
@@ -280,21 +343,23 @@ public class Main {
                         break;
                     }
                 } else {
-                    System.out.println("Ingrese una opción valida");
+                    System.out.println("Ingrese una opción valida.");
                 }
             }
 
-            System.out.println("Ingrese la ubicación donde desea que esté su lapida");
+            System.out.println("Ingrese la ubicación donde desea que esté su lapida.");
             while (true) {
                 entrada = input.next();
                 try {
                     int indice = Integer.parseInt(entrada);
-                    if (Cementerio.revisarDisponibilidadUbicacion(cementerio, indice)) {
+                    if (Ubicacion.revisarDisponibilidadUbicacion(cementerio, indice)) {
                         Ubicacion ubicacion = new Ubicacion(indice, cementerio);
                         Lapida lapida = new Lapida(persona, privacidad, ubicacion, cementerio, epitafio, "");
                         Cliente cliente = new Cliente(persona, contrasena, lapida);
                         Main.mostrarCliente(cliente, cementerio);
-                        break;
+                        System.out.println("");
+                        Main.miLapida(cliente,lapida);
+                        return cliente;
                     } else {
                         System.out.println("Esta ubicación no está disponible, ingrese una distinta");
                     }
@@ -302,7 +367,6 @@ public class Main {
                     System.out.println("Ingrese una ubicación valida");
                 }
             }
-            break;
         }
 
     }

@@ -30,9 +30,9 @@ public class Cliente extends Persona {
         return lapida;
     }
 
-    public static boolean clienteExiste(int documento) {
+    public static boolean clienteExiste(int documento,Cementerio cementerio) {
         for (Cliente c : clientes) {
-            if (c.getDocumento() == documento) {
+            if ((c.getDocumento() == documento)&&(c.getCementerio()==cementerio)) {
                 return true;
             }
         }
