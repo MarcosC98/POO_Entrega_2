@@ -59,21 +59,23 @@ public class Main {
                 Moderador mod = Moderador.buscarModerador(id);
                 if(Cliente.clienteExiste(id, cementerio)){
                     System.out.println("Menu para que elija si entrar como moderador o cliente.");//Moderador y cliente a la vez.
-                    a=false;
+                    a=false;//Este solo se colocó para que rompa el ciclo.
                 }
                 else{
                     Main.menuMod(mod);//Si solo es moderador.
                 }
                 
-
+            // Lanzamiento para Menú de Clientes.
             } else if (Cliente.clienteExiste(id, cementerio) == true) {
                 Cliente cliente = Cliente.buscarCliente(id);
                 Main.menuCliente(cliente);
-
+                
+            //Lanzamiento para Menú de Visitante.TERMINADO CON BUGS.
             } else if (Persona.visitanteExiste(id, cementerio) == true) {
                 Persona visitante = Persona.buscarPersona(id);
                 Main.menuVisitante(visitante);
 
+            // Lanzamiento para primer ingreso. ELABORADO PERO FALTAR IMPLEMENTAR.
             } else {
                 System.out.println("PrimerIngreso");
                 Main.nuevoIngreso(noValido, cementerio);
@@ -101,12 +103,121 @@ public class Main {
     }
 
     public static void menuMod(Moderador mod) {
-        System.out.println("MenuModerador");
+        while (doit == true) {
+            System.out.println(" ");
+            System.out.println("Ingrese el numero de la opción a realizar");
+            System.out.println(" ");
+            System.out.println("1. Ver mi Tumba."); // Solo muestra la información de mi tumba(Lapida y Ubicación).
+            System.out.println("2. Modificar mi Tumba.");// Muestra otro menú para acciones con la propia tumba.
+            System.out.println("2. Ver Listado Tumba."); //Método por confirmar.
+            System.out.println("3. Buscar Allegado."); // 
+            System.out.println("4. Saber más acerca de mi cementerio.");
+            System.out.println("5. Ingresar con otro documento."); 
+            System.out.println("6. Ingresar a otro cementerio.");
+            System.out.println("7. Salir");
+            System.out.println(" ");
+            System.out.println("Su Seleccion:");
+            entrada = input.next();
+            try {
+                int opcion = Integer.parseInt(entrada);
+                Cementerio cementerio = mod.getCementerio();
+                if (opcion <= 0 || opcion > 7) {
+                    throw new Exception();
+                } else {
+                    switch (opcion) {
+                        case 1:
+                            break;
+                        case 2:
+                            System.out.println("Menú para modificar la propia lápida.");
+                        case 3:
+                            Main.imprimirLapidas(cementerio);
+                            break;
+                        case 4:
+                            System.out.println("Mostrar allegados");//Todavía estoy pensando si añadirlo o no.
+                            break;
+                        case 5:
+                            System.out.println("Imprime información del cementerio...blablabla");
+                            break;
+                        case 6:
+                            doit = false;
+                            pedirCementerio = false;
+                            realizarIngreso = true;
+                            break;
+                        case 7:
+                            doit = false;
+                            realizarIngreso = true;
+                            pedirCementerio = true;
+                            break;
+                        case 8:
+                            doit = false;
+                            a = false;
+                            break;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Ingrese una opción valida por favor");
+            }
+        }
     }
 
     public static void menuCliente(Cliente cliente) {
-        System.out.println("MenuCliente");
-        a=false;
+        while (doit == true) {
+            System.out.println(" ");
+            System.out.println("Ingrese el numero de la opción a realizar");
+            System.out.println(" ");
+            System.out.println("1. Ver mi Tumba."); // Solo muestra la información de mi tumba(Lapida y Ubicación).
+            System.out.println("2. Modificar mi Tumba.");// Muestra otro menú para acciones con la propia tumba.
+            System.out.println("2. Ver Listado Tumba."); //Método por confirmar.
+            System.out.println("3. Buscar Allegado."); // 
+            System.out.println("4. Saber más acerca de mi cementerio.");
+            System.out.println("5. Ingresar con otro documento."); 
+            System.out.println("6. Ingresar a otro cementerio.");
+            System.out.println("7. Salir");
+            System.out.println(" ");
+            System.out.println("Su Seleccion:");
+            entrada = input.next();
+            try {
+                int opcion = Integer.parseInt(entrada);
+                Cementerio cementerio = cliente.getCementerio();
+                if (opcion <= 0 || opcion > 7) {
+                    throw new Exception();
+                } else {
+                    switch (opcion) {
+                        case 1:
+                            Lapida l = cliente.getLapida();
+                            Main.miLapida(cliente,l);
+                            break;
+                        case 2:
+                            System.out.println("Menú para modificar la propia lápida.");
+                        case 3:
+                            Main.imprimirLapidas(cementerio);
+                            break;
+                        case 4:
+                            System.out.println("Mostrar allegados");//Todavía estoy pensando si añadirlo o no.
+                            break;
+                        case 5:
+                            System.out.println("Imprime información del cementerio...blablabla");
+                            break;
+                        case 6:
+                            doit = false;
+                            pedirCementerio = false;
+                            realizarIngreso = true;
+                            break;
+                        case 7:
+                            doit = false;
+                            realizarIngreso = true;
+                            pedirCementerio = true;
+                            break;
+                        case 8:
+                            doit = false;
+                            a = false;
+                            break;
+                    }
+                }
+            } catch (Exception e) {
+                System.out.println("Ingrese una opción valida por favor");
+            }
+        }
     }
 
     public static void menuVisitante(Persona persona) {
@@ -250,6 +361,7 @@ public class Main {
         System.out.println("Indice: " + lapida.getUbicacion().getIndice());
         System.out.println("Cementerio: " + persona.getCementerio().getNombre());
         System.out.println(" ");
+        //Adicionar las memorias aquí.
     }
 
     public static void mostrarLapida(Cementerio cementerio) {
