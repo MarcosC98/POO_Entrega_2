@@ -17,7 +17,7 @@ public class Cementerio {
         this.nombre = nombre;
         this.capacidad = capacidad;
         this.direccion = direccion;
-        Ubicacion.ubicaciones = new Ubicacion[capacidad];
+        Ubicacion.Ubicaciones = new Ubicacion[capacidad];
         cementerios.add(this);
     }
     

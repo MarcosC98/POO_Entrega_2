@@ -1,5 +1,6 @@
 package Beyond_memories;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class Main {
@@ -23,9 +24,11 @@ public class Main {
         //DATOS FICTICIOS:
         Cementerio cementerio1 = new Cementerio(1, "Beyond Memories", (short) 50, "Calle 24 #45a-54 ");
         Cementerio cementerio2 = new Cementerio(2, "San Lorenzo", (short) 50, "Boston/Prado");
-        Persona persona1 = new Persona("Simona", 1010, "19/06/2017", cementerio1);
-        Persona persona2 = new Persona("Luna", 1011, "18/02/2013", cementerio1);
-        Persona persona3 = new Persona("Leonor", 1111, "Nacimiento", cementerio1);
+        Persona persona1 = new Persona("Simona", 1, "19/06/2017", cementerio1);
+        Persona persona2 = new Persona("Luna", 2, "18/02/2013", cementerio1);
+        Persona persona3 = new Persona("Leonor", 3, "Defuncion", cementerio1);
+        Persona persona4 = new Persona("Francisco", 4, "Defunción", cementerio1);
+        Persona persona5 = new Persona("Fidel", 5, "Defunción", cementerio1);
         Moderador moderador1 = new Moderador("David", 1090514247, "23/02/1998", "456", cementerio1);
         Moderador moderador2 = new Moderador("Mario", 1010215392, "13/06/1994", "666", cementerio2);
         Moderador moderador3 = new Moderador("Marcos", 1090514246, "23/02/1998", "123", cementerio1);
@@ -44,6 +47,7 @@ public class Main {
         idiom = input.next();
         Texto.setIdiom(idiom);
         Cementerio cementerio = null;
+        Main.Escribir();
 
         while (a == true) {
 
@@ -57,25 +61,24 @@ public class Main {
 
             if (Moderador.modExiste(id, cementerio) == true) {
                 Moderador mod = Moderador.buscarModerador(id);
-                if(Cliente.clienteExiste(id, cementerio)){
+                if (Cliente.clienteExiste(id, cementerio)) {
                     System.out.println("Menu para que elija si entrar como moderador o cliente.");//Moderador y cliente a la vez.
-                    a=false;//Este solo se colocó para que rompa el ciclo.
-                }
-                else{
+                    a = false;//Este solo se colocó para que rompa el ciclo.
+                } else {
                     Main.menuMod(mod);//Si solo es moderador.
                 }
-                
-            // Lanzamiento para Menú de Clientes.
+
+                // Lanzamiento para Menú de Clientes.
             } else if (Cliente.clienteExiste(id, cementerio) == true) {
                 Cliente cliente = Cliente.buscarCliente(id);
                 Main.menuCliente(cliente);
-                
-            //Lanzamiento para Menú de Visitante.TERMINADO CON BUGS.
+
+                //Lanzamiento para Menú de Visitante.TERMINADO CON BUGS.
             } else if (Persona.visitanteExiste(id, cementerio) == true) {
                 Persona visitante = Persona.buscarPersona(id);
                 Main.menuVisitante(visitante);
 
-            // Lanzamiento para primer ingreso. ELABORADO PERO FALTAR IMPLEMENTAR.
+                // Lanzamiento para primer ingreso. ELABORADO PERO FALTAR IMPLEMENTAR.
             } else {
                 System.out.println("PrimerIngreso");
                 Main.nuevoIngreso(noValido, cementerio);
@@ -102,7 +105,7 @@ public class Main {
         }
     }
 
-    public static void menuMod(Moderador mod) {
+    public static void menuMod(Moderador mod) {//Esto no ha sido modificado todavía.
         while (doit == true) {
             System.out.println(" ");
             System.out.println("Ingrese el numero de la opción a realizar");
@@ -112,7 +115,7 @@ public class Main {
             System.out.println("2. Ver Listado Tumba."); //Método por confirmar.
             System.out.println("3. Buscar Allegado."); // 
             System.out.println("4. Saber más acerca de mi cementerio.");
-            System.out.println("5. Ingresar con otro documento."); 
+            System.out.println("5. Ingresar con otro documento.");
             System.out.println("6. Ingresar a otro cementerio.");
             System.out.println("7. Salir");
             System.out.println(" ");
@@ -121,7 +124,7 @@ public class Main {
             try {
                 int opcion = Integer.parseInt(entrada);
                 Cementerio cementerio = mod.getCementerio();
-                if (opcion <= 0 || opcion > 7) {
+                if (opcion <= 0 || opcion > 8) {
                     throw new Exception();
                 } else {
                     switch (opcion) {
@@ -166,49 +169,58 @@ public class Main {
             System.out.println("Ingrese el numero de la opción a realizar");
             System.out.println(" ");
             System.out.println("1. Ver mi Tumba."); // Solo muestra la información de mi tumba(Lapida y Ubicación).
-            System.out.println("2. Modificar mi Tumba.");// Muestra otro menú para acciones con la propia tumba.
-            System.out.println("2. Ver Listado Tumba."); //Método por confirmar.
-            System.out.println("3. Buscar Allegado."); // 
-            System.out.println("4. Saber más acerca de mi cementerio.");
-            System.out.println("5. Ingresar con otro documento."); 
-            System.out.println("6. Ingresar a otro cementerio.");
-            System.out.println("7. Salir");
+            System.out.println("2. Modificar mi Tumba.");// Bugueado, está cambiando la clase y no la instancia.
+            System.out.println("3. Mapa del Cementerio");//Sólo está imprimiendo las lápidas.
+            System.out.println("4. Leer Lapida del cementerio.");
+            System.out.println("5. Escribir Memoria");
+            System.out.println("6. Menú Allegados."); //Todavía está por confirmarse.
+            System.out.println("7. Saber más acerca de mi cementerio.");
+            System.out.println("8. Ingresar con otro documento.");
+            System.out.println("9. Ingresar a otro cementerio.");
+            System.out.println("10. Salir");
             System.out.println(" ");
             System.out.println("Su Seleccion:");
             entrada = input.next();
             try {
                 int opcion = Integer.parseInt(entrada);
                 Cementerio cementerio = cliente.getCementerio();
-                if (opcion <= 0 || opcion > 7) {
+                if (opcion <= 0 || opcion > 10) {
                     throw new Exception();
                 } else {
                     switch (opcion) {
                         case 1:
                             Lapida l = cliente.getLapida();
-                            Main.miLapida(cliente,l);
+                            Main.miLapida(cliente, l);
                             break;
                         case 2:
-                            System.out.println("Menú para modificar la propia lápida.");
+                            Main.menuMiTumba(cliente, cementerio);
+                            break;
                         case 3:
                             Main.imprimirLapidas(cementerio);
                             break;
                         case 4:
-                            System.out.println("Mostrar allegados");//Todavía estoy pensando si añadirlo o no.
+                            System.out.println("Leer alguna lápida del cementerio con su documento.");//Todavía estoy pensando si añadirlo o no.
                             break;
                         case 5:
-                            System.out.println("Imprime información del cementerio...blablabla");
+                            System.out.println("Escribir memoria en alguna lápida");
                             break;
                         case 6:
+                            System.out.println("Menú allegados.");//Por verse.
+                            break;
+                        case 7:
+                            System.out.println("Saber más acerca de mi cementerio, descripción blablabla.");//Por hacer texto.
+                            break;
+                        case 8:
                             doit = false;
                             pedirCementerio = false;
                             realizarIngreso = true;
                             break;
-                        case 7:
+                        case 9:
                             doit = false;
                             realizarIngreso = true;
                             pedirCementerio = true;
                             break;
-                        case 8:
+                        case 10:
                             doit = false;
                             a = false;
                             break;
@@ -245,10 +257,10 @@ public class Main {
                     switch (opcion) {
                         case 1:
                             Cliente nuevoCliente = Main.adquirirLapida(cementerio, persona);
-                            doit=false;
-                            pedirCementerio=false;
-                            realizarIngreso=false;
-                            
+                            doit = false;
+                            pedirCementerio = false;
+                            realizarIngreso = false;
+
                             break;
                         case 2:
                             Main.imprimirLapidas(cementerio);
@@ -387,6 +399,46 @@ public class Main {
         }
     }
 
+    public static void menuMiTumba(Cliente cliente, Cementerio cementerio) {
+        System.out.println(" ");
+        System.out.println("----BIENVENIDO A LA MODIFICACIÓN DE SU TUMBA----");
+        System.out.println(" ");
+        System.out.println("1. Modificar mi Epitafio.");
+        System.out.println("2. Cambiar la ubicación de mi tumba.");
+        System.out.println("3. Cambiar privacidad.");
+        System.out.println("4. Volver al Menú de Cliente.");
+        System.out.println(" ");
+        System.out.println("Su selección: ");
+        System.out.println(" ");
+        Lapida l = cliente.getLapida();
+        entrada = input.next();
+        try {
+            int opcion = Integer.parseInt(entrada);
+            if (opcion <= 0 || opcion > 4) {
+                throw new Exception();
+            } else {
+                switch (opcion) {
+                    case 1:
+                        Main.modificarEpitafio(cliente, cementerio);
+                        Main.miLapida(cliente, l);
+                        break;
+                    case 2:
+                        Main.cambiarUbicacion(l, cementerio);
+                        Main.miLapida(cliente, l);
+                        break;
+                    case 3:
+                        Main.cambiarPrivacidad(l, cementerio);
+                        Main.miLapida(cliente, l);
+                        break;
+                    case 4:
+                        break;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Ingrese una opción válida por favor.");
+        }
+    }
+
     public static void imprimirLapidas(Cementerio cementerio) {
 
         System.out.println("LISTADO DE LAPIDAS EN EL CEMENTERIO " + cementerio.getNombre());
@@ -470,7 +522,7 @@ public class Main {
                         Cliente cliente = new Cliente(persona, contrasena, lapida);
                         Main.mostrarCliente(cliente, cementerio);
                         System.out.println("");
-                        Main.miLapida(cliente,lapida);
+                        Main.miLapida(cliente, lapida);
                         return cliente;
                     } else {
                         System.out.println("Esta ubicación no está disponible, ingrese una distinta");
@@ -479,6 +531,62 @@ public class Main {
                     System.out.println("Ingrese una ubicación valida");
                 }
             }
+        }
+
+    }
+
+    public static void modificarEpitafio(Cliente cliente, Cementerio cementerio) {
+        Lapida l = cliente.getLapida();
+        if (l.getEpitafio() != null) {
+            System.out.println(" ");
+            System.out.println("Su actual epitafio es: " + l.getEpitafio());
+            System.out.println(" ");
+        } else {
+            System.out.println(" ");
+            System.out.println("Su tumba actualmente no tiene epitafio.");
+            System.out.println(" ");
+        }
+        System.out.println("Ingrese a continuación la leyenda de su nuevo epitafio:");
+        String epitaf = input.next();
+        l.setEpitafio(epitaf);
+    }
+
+    public static void cambiarPrivacidad(Lapida l, Cementerio cementerio) {
+        String privAntes;
+        String privDespues;
+        boolean priv = l.getPrivacidad();
+        if (priv) {
+            privAntes = "publica";
+            privDespues = "privada";
+            l.setPrivacidad(false);
+        } else {
+            privAntes = "privada";
+            privDespues = "publica";
+            l.setPrivacidad(true);
+        }
+        System.out.println(" ");
+        System.out.println("Anteriormente su tumba era " + privAntes);
+        System.out.println("De ahora en adelante su tumba será " + privDespues);
+        System.out.println(" ");
+
+    }
+
+    public static void cambiarUbicacion(Lapida l, Cementerio cementerio) {
+        System.out.println(" ");
+        System.out.println("La ubicación actual de su tumba es " + l.getUbicacion().getIndice() + " en el cementerio " + cementerio.getNombre());
+        System.out.println(" ");
+        System.out.println("Ingrese un número del 1 al 50 donde desee ubicar su Lápida en e cementerio " + cementerio.getNombre());
+        System.out.println(" ");
+        try {
+            int nuevoIndice = input.nextInt();
+            Ubicacion nuevaUbicacion = new Ubicacion(nuevoIndice, cementerio);
+            Ubicacion.limpiarUbicacion(l.getUbicacion());
+            l.getUbicacion().anadirUbicacion(nuevaUbicacion);
+            System.out.println(" ");
+            System.out.println("Se cambió su ubicación satisfactoriamente.");
+            System.out.println(" ");
+        } catch (Exception e) {
+            System.out.println(" Ingrese una ubicación válida. ");
         }
 
     }
@@ -501,6 +609,24 @@ public class Main {
             } catch (Exception x) {
                 System.out.println("Ingrese un id de cementerio valido por favor");
             }
+        }
+    }
+
+    public static void Escribir() {
+        FileWriter texto = null;
+        System.out.println("Llega1");
+        try {
+            texto = new FileWriter("Archivo1.txt");
+            int[] imprimir = {1, 2, 3};
+            System.out.println("Llega2");
+            for (int i : imprimir) {
+                texto.write("Dato " + i);
+                System.out.println("LlegaMultiple");
+            }
+            texto.close();
+        }
+        catch(Exception e){
+               System.out.println("Mal metido.");
         }
     }
 
