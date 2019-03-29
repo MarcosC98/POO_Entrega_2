@@ -3,52 +3,60 @@ package Beyond_memories;
 import java.util.*;
 
 public class Moderador extends Persona {
-    
+
     private String contrasena;
     private Cementerio cementerio;
     static ArrayList<Moderador> moderadores = new ArrayList<>();
 
-    public Moderador(String nombre, int documento, String fechaNac, String contrasena,Cementerio cementerio) {
-        super(nombre, documento, fechaNac,cementerio);
+    public Moderador(String nombre, int documento, String fechaNac, String contrasena, Cementerio cementerio) {
+        super(nombre, documento, fechaNac, cementerio);
         this.contrasena = contrasena;
         this.cementerio = cementerio;
         moderadores.add(this);
     }
 
-    public static Moderador buscarModerador(int documento) { 
-        for (Moderador m : moderadores){
-            if (m.getDocumento() ==  documento){
+    public static Moderador buscarModerador(int documento) {
+        for (Moderador m : moderadores) {
+            if (m.getDocumento() == documento) {
                 return m;
             }
         }
         return null;
     }
-    
-    public static void mostrarMod(Moderador m){
+
+    public static void mostrarMod(Moderador m) {
         int doc = m.getDocumento();
         System.out.println("");
-        if(moderadores.contains(doc)){
+        if (moderadores.contains(doc)) {
             System.out.println("---DATOS DE MODERADOR---");
-            System.out.println("Nombre: "+m.getNombre());
-            System.out.println("Documento: "+ m.getDocumento());
-            System.out.println("Fecha de Nacimiento: "+ m.getFechaNac());
-        }
-        else{
+            System.out.println("Nombre: " + m.getNombre());
+            System.out.println("Documento: " + m.getDocumento());
+            System.out.println("Fecha de Nacimiento: " + m.getFechaNac());
+        } else {
             System.out.println("Esta persona no es un Moderador.");
         }
     }
-    
-    public static boolean modExiste(int documento,Cementerio cementerio) {
-        for (Moderador m : moderadores){
-            if ((m.getDocumento() ==  documento)&&(m.getCementerio() == cementerio)){
+
+    public static boolean modExiste(int documento, Cementerio cementerio) {
+        for (Moderador m : moderadores) {
+            if ((m.getDocumento() == documento) && (m.getCementerio() == cementerio)) {
                 return true;
             }
         }
         return false;
     }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
 }
 
-    /*
+/*
 
     public static void imprimirMods(){
         int key;
@@ -83,5 +91,4 @@ public class Moderador extends Persona {
     public void  setContrasena(double contrasena){
         this.contrasena = contrasena;
     }
-*/
-    
+ */

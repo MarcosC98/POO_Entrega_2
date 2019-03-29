@@ -65,10 +65,4 @@ public class Cementerio {
         return false;
     }
     
-    public static void imprimirCementerios(){
-        for(Cementerio c:cementerios){
-            System.out.println(c.getId()+". " + c.getNombre());
-        }
-    }
-
 }
